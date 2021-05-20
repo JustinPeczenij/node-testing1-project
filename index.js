@@ -7,7 +7,11 @@
  * trimProperties({ name: '  jane  ' }) // returns a new object { name: 'jane' }
  */
 function trimProperties(obj) {
-  // ✨ implement
+  const newObj = {
+    ...obj
+  }
+  Object.keys(newObj).map(key => newObj[key] = newObj[key].trim())
+  return newObj
 }
 
 /**
@@ -19,7 +23,9 @@ function trimProperties(obj) {
  * trimPropertiesMutation({ name: '  jane  ' }) // returns the object mutated in place { name: 'jane' }
  */
 function trimPropertiesMutation(obj) {
-  // ✨ implement
+  const newObj = obj
+  Object.keys(newObj).map(key => newObj[key] = newObj[key].trim())
+  return newObj
 }
 
 /**
@@ -31,7 +37,8 @@ function trimPropertiesMutation(obj) {
  * findLargestInteger([{ integer: 1 }, { integer: 3 }, { integer: 2 }]) // returns 3
  */
 function findLargestInteger(integers) {
-  // ✨ implement
+  const largest = Math.max(...integers)
+  return largest
 }
 
 class Counter {
@@ -40,7 +47,7 @@ class Counter {
    * @param {number} initialNumber - the initial state of the count
    */
   constructor(initialNumber) {
-    // ✨ initialize whatever properties are needed
+    this.count = initialNumber
   }
 
   /**
@@ -56,7 +63,8 @@ class Counter {
    * counter.countDown() // returns 0
    */
   countDown() {
-    // ✨ implement
+    if(this.count === 0) return this.count
+    else return this.count--
   }
 }
 
@@ -65,7 +73,8 @@ class Seasons {
    * [Exercise 5A] Seasons creates a seasons object
    */
   constructor() {
-    // ✨ initialize whatever properties are needed
+    this.seasons = ['spring', 'summer', 'fall', 'winter']
+    this.count = 0
   }
 
   /**
@@ -81,7 +90,9 @@ class Seasons {
    * seasons.next() // returns "summer"
    */
   next() {
-    // ✨ implement
+    if(this.count === 3) this.count = 0
+    else this.count++
+    return this.seasons[this.count]
   }
 }
 
@@ -93,9 +104,11 @@ class Car {
    * @param {number} mpg - miles the car can drive per gallon of gas
    */
   constructor(name, tankSize, mpg) {
+    this.name = name
     this.odometer = 0 // car initilizes with zero miles
     this.tank = tankSize // car initiazes full of gas
-    // ✨ initialize whatever other properties are needed
+    this.mpg = mpg
+    this.fuel = tankSize
   }
 
   /**
@@ -112,7 +125,12 @@ class Car {
    * focus.drive(200) // returns 600 (ran out of gas after 100 miles)
    */
   drive(distance) {
-    // ✨ implement
+    if(this.fuel < distance / this.mpg) {
+      this.fuel = 0
+      //something to stop odometer from going up when no more fuel
+    }
+    this.odometer += distance
+    this.fuel -= distance / this.mpg
   }
 
   /**
@@ -127,7 +145,9 @@ class Car {
    * focus.refuel(99) // returns 600 (tank only holds 20)
    */
   refuel(gallons) {
-    // ✨ implement
+    this.fuel += gallons
+    if(this.fuel > this.tank) this.fuel = this.tank
+    else return
   }
 }
 
@@ -150,8 +170,22 @@ class Car {
  *    // error.message is "number must be a number"
  * })
  */
-function isEvenNumberAsync(number) {
-  // ✨ implement
+async function isEvenNumberAsync(number) {
+  try {
+    if(typeof number !== 'number') {
+      throw new Error('number must be a number')
+    }
+    else if(number == Number.NaN) {
+      throw new Error('number must be a number')
+    }
+    else {
+      const check = number % 2
+      if(check === 0) return true
+      if(check !== 0) return false
+    }
+  } catch(err) {
+    return err.message
+  }
 }
 
 module.exports = {
